@@ -27,7 +27,7 @@ A list of possible features for the future of the game :
 
     Limited life / Different levels / Change color
     Powers (multiball, laser) / Different bricks
-    Point
+    Point / Improve graphics
 
 ## Dev Log
 
