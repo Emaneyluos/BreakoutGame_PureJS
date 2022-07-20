@@ -1,13 +1,13 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
-var canvasWidth = 1280;
-var canvasHeight = 720;
 
-var barIniX = 540;
-var barIniY = 690;
-var barX = 540;
-var barY = 690;
+var barWidth = 200;
+var barHeight = 20;
+var barIniX = (canvas.width - barWidth) / 2;
+var barIniY = canvas.height - barHeight - 10;
+var barX = barIniX;
+var barY = barIniY;
 var barWidth = 200;
 var barHeight = 20;
 var barSpeed = 10;
@@ -31,14 +31,14 @@ function keyIsPress (e)
 
 function moveRight ()
 {
-    if (barX < (canvasWidth - barWidth)) //Stop the progress of the bar at the end of the canvas
+    if (barX < (canvas.width - barWidth)) //Stop the progress of the bar at the end of the canvas
     {
-        ctx.clearRect(0, barIniY, canvasWidth, (canvasHeight - barHeight)); //Remove the bar
+        ctx.clearRect(0, barIniY, canvas.width, (canvas.height - barHeight)); //Remove the bar
         barX += barSpeed; //Deplace the X
         ctx.fillRect(barX, barY, barWidth, barHeight); //Redraw the bar
 
-        if (barX > (canvasWidth - barWidth)){ //Prevent the bar to be a little out of canvas
-            barX = canvasWidth - barWidth;
+        if (barX > (canvas.width - barWidth)){ //Prevent the bar to be a little out of canvas
+            barX = canvas.width - barWidth;
         }
     }
 
@@ -49,7 +49,7 @@ function moveLeft ()
 {
     if (barX > 0) //Stop the progress of the bar at the end of the canvas
     {
-        ctx.clearRect(0, barIniY, canvasWidth, (canvasHeight - barHeight)); //Remove the bar
+        ctx.clearRect(0, barIniY, canvas.width, (canvas.height - barHeight)); //Remove the bar
         barX -= barSpeed; //Deplace the X
         ctx.fillRect(barX, barY, barWidth, barHeight); //Redraw the bar
 

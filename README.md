@@ -23,7 +23,7 @@ V0.6 - Create the brick and destruction
 V 1 -  Add the loop of the game
 
 ## Future features
-A list of possible features for the future of the game : 
+A list of possible next features : 
 
     Limited life / Different levels / Change color
     Powers (multiball, laser) / Different bricks
