@@ -51,8 +51,8 @@ function refresh (){
     ctx.beginPath(); //return at the beginning of canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height); //Clear canvas
     bar.draw(ctx); //Redraw the bar
-   
-    ball.move(canvas, "auto");
+    
+    ball.move(canvas, "auto", ctx);
     ball.draw(ctx);
     
    

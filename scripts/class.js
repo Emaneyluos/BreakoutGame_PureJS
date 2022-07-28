@@ -62,10 +62,10 @@ class Bar extends MovingObject {
 
 class Ball extends MovingObject {
 
-    speedX = 10;
-    speedY = 8;
-    radius = 15; //Size of the ball
-    pi = 3 * 2;
+    speedX = 2;
+    speedY = 1;
+    radius = 150; //Size of the ball
+    pi = Math.PI * 2;
     scope = [];
 
     draw (ctx){
@@ -76,7 +76,7 @@ class Ball extends MovingObject {
    
 
 
-    move (canvas, way = "auto"){
+    move (canvas, way = "auto", ctx){
 
         this.x += this.speedX;
         this.y += this.speedY;
@@ -102,17 +102,48 @@ class Ball extends MovingObject {
             //alert("you loose!");
         }
 
+        ctx.fillStyle = '#FFA500';
         this.scopeRefresh();
+        
+        this.scope.forEach(element => {
+            ctx.fillRect(element[0], element[1], 1 ,20);
+
+            
+        });
+        
+        ctx.fillStyle = "#696969";
+        ctx.fillRect(this.x, this.y,-1000, 1);
+        // géréer l'affichage selon le coté du cercle, sinon les rectangles sont cachés par le cercle
+
+        ctx.fillStyle = '#000000';
+       
     }
 
-    scopeRefresh (){
+   scopeRefresh (){
         
-        this.scope.lenght = 0; //Purge array
+        this.scope = []; //Purge array
+        
 
+        for (let i=1; (i <= this.radius * 4) ; i++)
+        {
+            let angle = (i/this.radius) * (Math.PI*2)  ;
+
+            let x = this.arrondir(this.x + (this.radius * Math.cos(angle)));
+            let y =this.arrondir(this.y + (this.radius * Math.sin(angle)));
+            
+            
+            let dot = [x, y, " \n"];
+            this.scope.push(dot);
+        }
         
-        this.scope.push(this.x);
-        alert (this.scope);
         
+    }
+
+    arrondir (num){
+        num *= 1000;
+        Math.round(num);
+        return num/1000;
+
     }
 
    
