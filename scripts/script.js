@@ -1,8 +1,11 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
+var div = document.getElementById("da");
 
 var canvasWidth = 1280;
 var canvasHeight = 720;
+
+var i =0;
 
 /*var bar.width = 200;
 var bar.height = 20;
@@ -13,10 +16,11 @@ var bar.y = barIniY;
 var barSpeed = 10;*/
 var xball =0;
 
-const bar = new Bar ();
+const bar = new Bar();
+const ball = new Ball();
 
 bar.setPos((canvas.width - bar.width)/2, canvas.height - bar.height - 10);
-
+ball.setPos ((canvas.width/2), (canvas.height/2));
 
 
 ctx.fillRect(bar.x, bar.y, bar.width, bar.height);
@@ -46,10 +50,12 @@ function refresh (){
 
     ctx.beginPath(); //return at the beginning of canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height); //Clear canvas
-    ctx.fillRect(bar.x, bar.y, bar.width, bar.height); //Redraw the bar
-    ctx.arc(xball,200, 15, 0, Math.PI * 2, 0);
-    ctx.fill();
-
+    bar.draw(ctx); //Redraw the bar
+   
+    ball.move(canvas, "auto");
+    ball.draw(ctx);
+    
+   
     window.requestAnimationFrame(refresh);
 }
 
