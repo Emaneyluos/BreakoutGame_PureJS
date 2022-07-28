@@ -66,12 +66,15 @@ class Ball extends MovingObject {
     speedY = 8;
     radius = 15; //Size of the ball
     pi = 3 * 2;
-   // scope;
+    scope = [];
 
     draw (ctx){
         ctx.arc(this.x,this.y, this.radius, 0, this.pi,  0);
         ctx.fill();
     }
+
+   
+
 
     move (canvas, way = "auto"){
 
@@ -99,12 +102,18 @@ class Ball extends MovingObject {
             //alert("you loose!");
         }
 
-        //scopeRefresh();
+        this.scopeRefresh();
     }
 
-    /*scopeRefresh (){
-        this.scope.push(x);
-        alert ("ok");
-    }*/
+    scopeRefresh (){
+        
+        this.scope.lenght = 0; //Purge array
 
+        
+        this.scope.push(this.x);
+        alert (this.scope);
+        
+    }
+
+   
 }
