@@ -105,34 +105,49 @@ class Ball extends MovingObject {
         ctx.fillStyle = '#FFA500';
         this.scopeRefresh();
         
-        this.scope.forEach(element => {
-            ctx.fillRect(element[0], element[1], 1 ,20);
+        this.scope.forEach(this.trait);
 
-            
-        });
+       
         
         ctx.fillStyle = "#696969";
         ctx.fillRect(this.x, this.y,-1000, 1);
-        // géréer l'affichage selon le coté du cercle, sinon les rectangles sont cachés par le cercle
+        // gérer l'affichage selon le coté du cercle, sinon les rectangles sont cachés par le cercle
 
         ctx.fillStyle = '#000000';
        
     }
 
-   scopeRefresh (){
+    trait (element, index, array){ //NE FONCTIONNE PAS 
+
+    
+        if (index < (array.length/2)){
+            //alert("ok");
+        ctx.fillRect(element[0], element[1], 1,20);
+        }
+
+        else {
+            
+            //alert("else");
+            ctx.fillStyle = "#FF0000"
+            ctx.fillRect(element[0], element[1], -1,20);
+        }
+        
+       }
+
+   scopeRefresh (){ // en Dev
         
         this.scope = []; //Purge array
         
 
-        for (let i=1; (i <= this.radius * 4) ; i++)
+        for (let i=1; i <= this.radius  ; i++)
         {
-            let angle = (i/this.radius) * (Math.PI*2)  ;
+            let angle = (i/this.radius) * Math.PI  ;
 
             let x = this.arrondir(this.x + (this.radius * Math.cos(angle)));
             let y =this.arrondir(this.y + (this.radius * Math.sin(angle)));
             
             
-            let dot = [x, y, " \n"];
+            let dot = [x, y];
             this.scope.push(dot);
         }
         
@@ -141,7 +156,7 @@ class Ball extends MovingObject {
 
     arrondir (num){
         num *= 1000;
-        Math.round(num);
+        num = Math.round(num); 
         return num/1000;
 
     }
