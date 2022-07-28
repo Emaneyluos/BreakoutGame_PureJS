@@ -4,58 +4,52 @@ var ctx = canvas.getContext("2d");
 var canvasWidth = 1280;
 var canvasHeight = 720;
 
-var barIniX = 540;
-var barIniY = 690;
-var barX = 540;
-var barY = 690;
-var barWidth = 200;
-var barHeight = 20;
-var barSpeed = 10;
+/*var bar.width = 200;
+var bar.height = 20;
+var barIniX = (canvas.width - bar.width) / 2;
+var barIniY = canvas.height - bar.height - 10;
+var bar.x = barIniX;
+var bar.y = barIniY;
+var barSpeed = 10;*/
+var xball =0;
 
-ctx.fillRect(barX, barY, barWidth, barHeight);
+const bar = new Bar ();
+
+bar.setPos((canvas.width - bar.width)/2, canvas.height - bar.height - 10);
+
+
+
+ctx.fillRect(bar.x, bar.y, bar.width, bar.height);
+ctx.arc(10,200, 15, 0, Math.PI * 2, 0);
+ctx.fill();
+
+
 
 document.addEventListener('keydown', keyIsPress);
 
 function keyIsPress (e)
 {
     if (e.keyCode == 39){
-        moveRight ();
+        bar.move (canvas, "right");
     }
 
     else if (e.keyCode == 37){
-        moveLeft ();
+         bar.move (canvas, "left");
     }
 
 
 }
 
-function moveRight ()
-{
-    if (barX < (canvasWidth - barWidth)) //Stop the progress of the bar at the end of the canvas
-    {
-        ctx.clearRect(0, barIniY, canvasWidth, (canvasHeight - barHeight)); //Remove the bar
-        barX += barSpeed; //Deplace the X
-        ctx.fillRect(barX, barY, barWidth, barHeight); //Redraw the bar
+window.requestAnimationFrame(refresh);
 
-        if (barX > (canvasWidth - barWidth)){ //Prevent the bar to be a little out of canvas
-            barX = canvasWidth - barWidth;
-        }
-    }
+function refresh (){
 
-    
+    ctx.beginPath(); //return at the beginning of canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height); //Clear canvas
+    ctx.fillRect(bar.x, bar.y, bar.width, bar.height); //Redraw the bar
+    ctx.arc(xball,200, 15, 0, Math.PI * 2, 0);
+    ctx.fill();
+
+    window.requestAnimationFrame(refresh);
 }
 
-function moveLeft ()
-{
-    if (barX > 0) //Stop the progress of the bar at the end of the canvas
-    {
-        ctx.clearRect(0, barIniY, canvasWidth, (canvasHeight - barHeight)); //Remove the bar
-        barX -= barSpeed; //Deplace the X
-        ctx.fillRect(barX, barY, barWidth, barHeight); //Redraw the bar
-
-        if (barX < 0){ //Prevent the bar to be a little out of canvas
-            barX = 0;
-        }
-    }
-
-}
