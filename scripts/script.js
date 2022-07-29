@@ -1,11 +1,15 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
-var div = document.getElementById("da");
+var div = document.getElementById("fps");
 
 var canvasWidth = 1280;
 var canvasHeight = 720;
 
-var i =0;
+var perf1 =performance.now();
+var perf2 =0;
+var i = 0;
+x = 0;
+var fps = 0;
 
 /*var bar.width = 200;
 var bar.height = 20;
@@ -54,6 +58,23 @@ function refresh (){
     
     ball.move(canvas, "auto", ctx);
     ball.draw(ctx);
+
+    i++;
+    if (i >= 60){ //FPS coounter
+        perf2 = performance.now();
+        fps = i / ((perf2 - perf1)/1000);
+                                // millisec to sec
+
+        var mycounter = document.createElement('p'); //Create counter
+        mycounter.innerText = i;
+        if (div.hasChildNodes()) { //Flush the old counter
+            div.removeChild(div.firstChild);
+        }
+       div.appendChild(mycounter); //Add the node the page
+
+        perf1= performance.now();
+        i = 0;
+    }
     
    
     window.requestAnimationFrame(refresh);

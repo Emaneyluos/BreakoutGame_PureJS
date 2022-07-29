@@ -117,34 +117,47 @@ class Ball extends MovingObject {
        
     }
 
-    trait (element, index, array){ //NE FONCTIONNE PAS 
+    trait (element, index, array){ 
 
     
-        if (index < (array.length/2)){
-            //alert("ok");
+        if (index <= (array.length/4)){
+           
         ctx.fillRect(element[0], element[1], 1,20);
         }
 
-        else {
+        else if (index >  (array.length/4) && index <= (array.length/2)){
             
-            //alert("else");
+            
             ctx.fillStyle = "#FF0000"
             ctx.fillRect(element[0], element[1], -1,20);
+        }
+
+        else if (index > (array.length/2) && index < ((array.length/4)*3)){
+            
+            
+            ctx.fillStyle = "#FFD700"
+            ctx.fillRect(element[0], element[1], -1,-20);
+        }
+
+        else{
+            ctx.fillStyle = "#1E90FF"
+            ctx.fillRect(element[0], element[1], 1,-20);
+
         }
         
        }
 
-   scopeRefresh (){ // en Dev
+   scopeRefresh (){ // The array scope own all the dot of the peremiter of the ball
         
         this.scope = []; //Purge array
         
 
-        for (let i=1; i <= this.radius  ; i++)
+        for (let i=1; i <= (this.radius * 2)  ; i++)
         {
             let angle = (i/this.radius) * Math.PI  ;
 
-            let x = this.arrondir(this.x + (this.radius * Math.cos(angle)));
-            let y =this.arrondir(this.y + (this.radius * Math.sin(angle)));
+            let x = this.round(this.x + (this.radius * Math.cos(angle)));
+            let y =this.round(this.y + (this.radius * Math.sin(angle)));
             
             
             let dot = [x, y];
@@ -154,7 +167,7 @@ class Ball extends MovingObject {
         
     }
 
-    arrondir (num){
+    round (num){
         num *= 1000;
         num = Math.round(num); 
         return num/1000;
