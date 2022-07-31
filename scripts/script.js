@@ -56,7 +56,8 @@ function refresh (){
     ctx.clearRect(0, 0, canvas.width, canvas.height); //Clear canvas
     bar.draw(ctx); //Redraw the bar
     
-    ball.move(canvas, "auto", ctx);
+    ball.move(canvas, ctx);
+    ball.touch(bar.getPos(), bar.getSize())
     ball.draw(ctx);
 
     i++;
@@ -68,7 +69,7 @@ function refresh (){
         var mycounter = document.createElement('p'); //Create counter
         mycounter.innerText = i;
         if (div.hasChildNodes()) { //Flush the old counter
-            div.removeChild(div.firstChild);
+            div.removeChild(div.lastChild);
         }
        div.appendChild(mycounter); //Add the node the page
 
