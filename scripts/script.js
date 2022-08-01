@@ -57,7 +57,8 @@ function refresh (){
     bar.draw(ctx); //Redraw the bar
     
     ball.move(canvas, ctx);
-    ball.touch(bar.getPos(), bar.getSize())
+    ball.touch(bar.getPos(), bar.getSize());
+    
     ball.draw(ctx);
 
     i++;

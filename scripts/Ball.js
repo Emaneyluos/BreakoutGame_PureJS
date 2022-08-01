@@ -86,28 +86,67 @@ class Ball extends MovingObject {
 
     touch (barPos, barSize){ //
 
-
+        let barThird = barSize[0] / 3;
         
         this.scope.some(function (element) { 
 
+        if (element[1] >= barPos[1]){ //Is ball under the bar
             
-            if (element[0] >= barPos[0] && element[0] <= (barPos[0] + barSize[0]))
+            
+            if (element[0] >= barPos[0] && element[0] <= (barPos[0] + barThird)) 
+            //Left part of the bar
             {
-                if (element[1] >= barPos[1])
-                {
+                this.speedY *= -0.8;
+                this.y = barPos[1] - this.radius; //Prevent the ball to get in the bar
+                
+                if (this.speedX < 0){ //If the ball is in right direction
+                    this.speedX *= 1.33;
+                }
+                else{ //If the ball is in counter direction
+                    this.speedX *= -0.8;
+                }
 
-                this.speedY *= -1;
-                //alert(this.speedY);
-                this.y = barPos[1] - 1 - this.radius;
-
-                bounceBar (barPos, barSize, element);
-
+                //alert(this.speedX);
+                
                 return true;
 
 
+            }
+
+            else if (element[0] >= (barPos[0] + barThird) && element[0] <= (barPos[0] + barThird*2)) 
+            //Center part of the bar
+            {
+                this.speedY *= -1.5;
+                this.y = barPos[1] - this.radius; //Prevent the ball to get in the bar
+                
+                return true;
+
+
+            }
+
+            else if (element[0] >= barPos[0] + barThird*2 && element[0] <= (barPos[0] + barThird*3)) 
+            //Right part of the bar
+            {
+                this.speedY *= -0.8;
+                this.y = barPos[1] - this.radius; //Prevent the ball to get in the bar
+                
+                if (this.speedX > 0){ //If the ball is in right direction
+                    this.speedX *= 1.33;
+                }
+                else{ //If the ball is in counter direction
+                    this.speedX *= -0.8;
                 }
 
-            }     
+                //alert(this.speedX);
+                
+                return true;
+
+
+            }
+
+        }
+            
+            
             //Selon le rebond sur la raquette différents cgangements de vitesse
             //milieu speedy * -1.5
             //milieu excentré speedy * -1 et speedx * 0.75 plus la direction (podsitif ou négatif)
@@ -117,12 +156,13 @@ class Ball extends MovingObject {
         
     }
 
-    bounceBar (barPos, barSize, element){
+    //Add function for increase speed who manage that, for have limit.
 
 
 
 
-    }
+
+    
 
     round (num){
         num *= 1000;
