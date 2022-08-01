@@ -84,7 +84,7 @@ class Ball extends MovingObject {
         
     }
 
-    touch (barPos, barSize){
+    touch (barPos, barSize){ //
 
 
         
@@ -100,22 +100,28 @@ class Ball extends MovingObject {
                 //alert(this.speedY);
                 this.y = barPos[1] - 1 - this.radius;
 
+                bounceBar (barPos, barSize, element);
 
                 return true;
 
 
                 }
 
-            }
-                
+            }     
             //Selon le rebond sur la raquette différents cgangements de vitesse
             //milieu speedy * -1.5
             //milieu excentré speedy * -1 et speedx * 0.75 plus la direction (podsitif ou négatif)
-            // cotés speedy *-0.8  et speedx *1.33 plus la direction 
+            // cotés speedy *-0.8  et speedx *1.33 plus la direction             
+        }, this);
+
+        
+    }
+
+    bounceBar (barPos, barSize, element){
 
 
-            
-        }, this)
+
+
     }
 
     round (num){
