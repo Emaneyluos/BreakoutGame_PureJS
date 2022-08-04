@@ -2,8 +2,6 @@ var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 var div = document.getElementById("fps"); //FPS counter
 
-var canvasWidth = 1280;
-var canvasHeight = 720;
 
 var perf1 =performance.now(); //For FPS counter 
 var perf2 =0; //For FPS counter
