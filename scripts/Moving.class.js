@@ -9,6 +9,7 @@ class MovingObject {
     speedX = 0;
     speedY = 0;
 
+
     setPos(xPos, yPos){
         this.x = xPos;
         this.y = yPos;

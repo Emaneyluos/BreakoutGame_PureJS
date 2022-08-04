@@ -1,42 +1,27 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
-var div = document.getElementById("fps");
+var div = document.getElementById("fps"); //FPS counter
 
 var canvasWidth = 1280;
 var canvasHeight = 720;
 
-var perf1 =performance.now();
-var perf2 =0;
+var perf1 =performance.now(); //For FPS counter 
+var perf2 =0; //For FPS counter
 var i = 0;
-x = 0;
-var fps = 0;
+var paused = false;
 
-/*var bar.width = 200;
-var bar.height = 20;
-var barIniX = (canvas.width - bar.width) / 2;
-var barIniY = canvas.height - bar.height - 10;
-var bar.x = barIniX;
-var bar.y = barIniY;
-var barSpeed = 10;*/
-var xball =0;
-
-const bar = new Bar();
-const ball = new Ball();
-
-bar.setPos((canvas.width - bar.width)/2, canvas.height - bar.height - 10);
-ball.setPos ((canvas.width/2), (canvas.height/2));
-
-
-ctx.fillRect(bar.x, bar.y, bar.width, bar.height);
-ctx.arc(10,200, 15, 0, Math.PI * 2, 0);
-ctx.fill();
-
+const bar = new Bar(canvas); 
+const ball = new Ball(canvas);
 
 
 document.addEventListener('keydown', keyIsPress);
+window.requestAnimationFrame(refresh);
+
 
 function keyIsPress (e)
 {
+    //console.log(e.keyCode); //See the keyCode of key press
+
     if (e.keyCode == 39){
         bar.move (canvas, "right");
     }
@@ -45,40 +30,54 @@ function keyIsPress (e)
          bar.move (canvas, "left");
     }
 
+    else if (e.keyCode == 27) //Set pause
+    {
+        if (!paused){
+            paused = true;
+        }
+        else{
+            paused = false;
+        }
+    }
+
 
 }
 
-window.requestAnimationFrame(refresh);
 
 function refresh (){
 
-    ctx.beginPath(); //return at the beginning of canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height); //Clear canvas
-    bar.draw(ctx); //Redraw the bar
-    
-    ball.move(canvas, ctx);
-    ball.touch(bar.getPos(), bar.getSize());
-    
-    ball.draw(ctx);
+    if (!paused){
+        ctx.beginPath(); //return at the start of canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height); //Clear canvas
+        
+        bar.draw(ctx); //Redraw the bar
+        ball.move(canvas, ctx);
+        ball.touch(bar.getPos(), bar.getSize());
+        ball.draw(ctx);
+
+        fpsCounter();
+    }
+    window.requestAnimationFrame(refresh);
+}
+
+
+function fpsCounter (){
 
     i++;
     if (i >= 60){ //FPS coounter
-        perf2 = performance.now();
-        fps = i / ((perf2 - perf1)/1000);
+        perf2 = performance.now(); //Get time now
+        let fps = i / ((perf2 - perf1)/1000);
                                 // millisec to sec
 
         var mycounter = document.createElement('p'); //Create counter
         mycounter.innerText = i;
-        if (div.hasChildNodes()) { //Flush the old counter
-            div.removeChild(div.lastChild);
-        }
-       div.appendChild(mycounter); //Add the node the page
 
-        perf1= performance.now();
+        div.removeChild(div.lastChild); //Flush the old counter
+        div.appendChild(mycounter); //Add the node to the page
+
+        perf1= performance.now(); //Reset perf1
         i = 0;
     }
-    
-   
-    window.requestAnimationFrame(refresh);
+
 }
 

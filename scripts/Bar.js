@@ -2,8 +2,12 @@ class Bar extends MovingObject {
 
     width = 200;
     height = 20;
-
     speed= 40;
+
+    constructor(canvas){
+        super();
+        this.setPos((canvas.width-this.width)/2, canvas.height-this.height-10);
+    }
 
     
 

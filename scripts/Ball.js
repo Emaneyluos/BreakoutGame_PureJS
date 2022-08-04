@@ -6,6 +6,11 @@ class Ball extends MovingObject {
     pi = Math.PI * 2;
     scope = [];
 
+    constructor(canvas){
+        super();
+        this.setPos((canvas.width/2), (canvas.height/2));
+    }
+
     draw (ctx){
         ctx.arc(this.x,this.y, this.radius, 0, this.pi,  0);
         ctx.fill();
@@ -85,6 +90,9 @@ class Ball extends MovingObject {
     }
 
     touch (barPos, barSize){ //
+
+        //Ne pas augmenter ou diminuer la vitesse Y
+        //Seulement le vitesse X
 
         let barThird = barSize[0] / 3;
         
