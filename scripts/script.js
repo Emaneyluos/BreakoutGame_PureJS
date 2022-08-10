@@ -46,8 +46,10 @@ function refresh (){
 
     if (!paused){
         ctx.beginPath(); //return at the start of canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height); //Clear canvas
-        
+        ctx.fillStyle = "rgba(255,255,255,0.5)";
+        ctx.fillRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle = "rgba(0,0,0,1)";
+
         bar.draw(ctx); //Redraw the bar
         ball.move(canvas, ctx);
         ball.touch(bar.getPos(), bar.getSize());
