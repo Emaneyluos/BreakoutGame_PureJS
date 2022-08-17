@@ -14,47 +14,49 @@ class Bar extends MovingObject {
     
 
     keyMove (left, right){
-        if (left && !right){ //Stop the progress of the bar at the end of the canvas
 
-            
-            
-            if (this.speed <= 0 && this.speed <= -this.minSpeed )
+        if (left && !right)
+        { 
+
+            if (this.speed <= 0 && this.speed <= -this.minSpeed ) // If the bar is moving the right way
             {
                 this.speed *= 1.02;
-                if (Math.abs(this.speed) > this.maxSpeed) { this.speed = -this.maxSpeed;}
+                if (Math.abs(this.speed) > this.maxSpeed) { this.speed = -this.maxSpeed;} 
 
             }
-            
-            else if (this.speed <= 0) {this.speed = -this.minSpeed;}
 
-            else {
+            else if (this.speed > 0)                     //If the bar is moving in the other way 
+            {
                 this.speed /= 1.25;
-                if(this.speed < this.minSpeed / 10) {this.speed = 0;}
+                if(this.speed < (this.minSpeed / 10)) {this.speed = 0;}
             }
 
+            else  {this.speed = -this.minSpeed;}       //If the bar is stopped
            
         }
 
         else if ( !left && right){
 
-            if (this.speed >=0 && this.speed >= this.minSpeed )
+            if (this.speed >=0 && this.speed >= this.minSpeed )  // If the bar is moving the right way
             {
                 this.speed *= 1.02;
                 if (this.speed > this.maxSpeed) { this.speed = this.maxSpeed; }
 
             }
+           
             
-            else if (this.speed >= 0)
+            else if (this.speed < 0) //If the bar is moving in the other way 
+            {
+                this.speed /= 1.25;
+                if(this.speed > (-this.minSpeed / 10)) {this.speed = 0;}
+            }
+            
+             
+            else //If the bar is stopped
             {
                 
                 this.speed = this.minSpeed;
             }
-            
-            else {
-                this.speed /= 1.25;
-                if(this.speed > -this.minSpeed / 10) {this.speed = 0;}
-            }
-            
         }
 
         else if ( (left && right) || (!left && !right) ){
