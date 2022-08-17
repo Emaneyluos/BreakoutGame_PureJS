@@ -11,25 +11,27 @@ var oldTimeStamp = 0;
 var i = 0;
 var paused = false;
 
+var keyLeft = 0;
+var keyRight = 0;
+
 const bar = new Bar(canvas); 
 const ball = new Ball(canvas);
 
-
 document.addEventListener('keydown', keyIsPress);
+document.addEventListener('keyup', keyIsUp);
 window.requestAnimationFrame(refresh);
 
 
 function keyIsPress (e)
 {
-    //console.log(e.keyCode); //See the keyCode of key press
-
     if (e.keyCode == 39){
-        bar.move (canvas, "right");
+        keyRight = 1;
     }
 
     else if (e.keyCode == 37){
-         bar.move (canvas, "left");
+         keyLeft = 1;
     }
+
 
     else if (e.keyCode == 27) //Set pause
     {
@@ -39,6 +41,21 @@ function keyIsPress (e)
         else{
             paused = false;
         }
+
+        //Bug quan on et pause la ball continue de bouger
+    }
+
+
+}
+
+function keyIsUp (e)
+{
+    if (e.keyCode == 39){
+        keyRight = 0;
+    }
+
+    else if (e.keyCode == 37){
+        keyLeft = 0
     }
 
 
@@ -51,24 +68,32 @@ function refresh (timeStamp){
 
     if (!paused){
         ctx.beginPath(); //return at the start of canvas
-        ctx.fillStyle = "rgba(255,255,255,0.5)";
+        ctx.fillStyle = "rgba(255,255,255,0.8)";
         ctx.fillRect(0,0,canvas.width,canvas.height);
         ctx.fillStyle = "rgba(0,0,0,1)";
 
-        bar.draw(ctx); //Redraw the bar
+        
 
         // Calculate how much time has passed
             //For move the ball by time not by framerate
         let secondsPassed = (timeStamp - oldTimeStamp) / 1000;
         oldTimeStamp = timeStamp;
+
+        
+        bar.keyMove(keyLeft, keyRight);
+        bar.move(canvas, secondsPassed);
+        console.log(bar.speed);
         ball.move(canvas, secondsPassed);
         ball.touch(bar.getPos(), bar.getSize());
+
+        bar.draw(ctx); //Redraw the bar
         ball.draw(ctx);
 
        // fpsCounter();
     }
     window.requestAnimationFrame(refresh);
 }
+
 
 
 /*function fpsCounter (){

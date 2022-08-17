@@ -4,7 +4,7 @@ class Ball extends MovingObject {
     maxSpeedX = 650;
 
     speedX = 400;
-    speedY = 200;
+    speedY = 300;
 
     radius = 15; //Size of the ball
     pi = Math.PI * 2;

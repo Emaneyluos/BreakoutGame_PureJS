@@ -2,7 +2,9 @@ class Bar extends MovingObject {
 
     width = 200;
     height = 20;
-    speed= 40;
+    speed=0;
+    minSpeed = 400;
+    maxSpeed = 600;
 
     constructor(canvas){
         super();
@@ -11,22 +13,74 @@ class Bar extends MovingObject {
 
     
 
-    move (canvas, way = "auto"){
-        if (this.x > 0 && way == "left"){ //Stop the progress of the bar at the end of the canvas
+    keyMove (left, right){
+        if (left && !right){ //Stop the progress of the bar at the end of the canvas
 
-            this.x -= this.speed; //Move the bar
+            
+            
+            if (this.speed <= 0 && this.speed <= -this.minSpeed )
+            {
+                this.speed *= 1.02;
+                if (Math.abs(this.speed) > this.maxSpeed) { this.speed = -this.maxSpeed;}
 
-            if (this.x < 0){ //Avoid the lost of the bar
-                this.x = 0; 
             }
+            
+            else if (this.speed <= 0) {this.speed = -this.minSpeed;}
+
+            else {
+                this.speed /= 1.25;
+                if(this.speed < this.minSpeed / 10) {this.speed = 0;}
+            }
+
+           
         }
 
-        if (this.x < (canvas.width - this.width) && way == "right"){
-            this.x += this.speed
-            if (this.x > (canvas.width - this.width)){ //Prevent the bar to be a little out of canvas
-                this.x = canvas.width - this.width;
+        else if ( !left && right){
+
+            if (this.speed >=0 && this.speed >= this.minSpeed )
+            {
+                this.speed *= 1.02;
+                if (this.speed > this.maxSpeed) { this.speed = this.maxSpeed; }
+
             }
+            
+            else if (this.speed >= 0)
+            {
+                
+                this.speed = this.minSpeed;
+            }
+            
+            else {
+                this.speed /= 1.25;
+                if(this.speed > -this.minSpeed / 10) {this.speed = 0;}
+            }
+            
         }
+
+        else if ( (left && right) || (!left && !right) ){
+            this.speed /=1.035;
+            if (Math.abs(this.speed) < this.minSpeed ) {this.speed = 0;}
+            
+        }
+    }
+
+    move (canvas, time){
+
+        if (this.speed != 0)
+        {
+
+        this.x += (this.speed * time); //Move the bar
+
+        if (this.x < 0){ //Avoid the lost of the bar
+            this.x = 0; 
+        }
+
+        else if (this.x > (canvas.width - this.width)){ //Prevent the bar to be a little out of canvas
+            this.x = canvas.width - this.width;
+        }
+
+    }
+
     }
 
     draw (ctx){
