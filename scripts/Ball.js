@@ -1,7 +1,11 @@
 class Ball extends MovingObject {
 
-    speedX = 8;
-    speedY = 4;
+    minSpeedX = 400;
+    maxSpeedX = 650;
+
+    speedX = 400;
+    speedY = 200;
+
     radius = 15; //Size of the ball
     pi = Math.PI * 2;
     scope = [];
@@ -19,10 +23,10 @@ class Ball extends MovingObject {
    
 
 
-    move (canvas, ctx){
+    move (canvas, time){
 
-        this.x += this.speedX;
-        this.y += this.speedY;
+        this.x += (this.speedX * time);
+        this.y += (this.speedY * time);
 
         if ((this.x - (this.radius)) < 0){ //Avoid lost the ball
             this.x = 0 + (this.radius);
@@ -89,10 +93,8 @@ class Ball extends MovingObject {
         
     }
 
-    touch (barPos, barSize){ //
+    touch (barPos, barSize){ 
 
-        //Ne pas augmenter ou diminuer la vitesse Y
-        //Seulement le vitesse X
 
         let barThird = barSize[0] / 3;
         
@@ -104,27 +106,25 @@ class Ball extends MovingObject {
             if (element[0] >= barPos[0] && element[0] <= (barPos[0] + barThird)) 
             //Left part of the bar
             {
-                this.speedY *= -0.8;
+                this.speedY *= -1;
+                
                 this.y = barPos[1] - this.radius; //Prevent the ball to get in the bar
                 
                 if (this.speedX < 0){ //If the ball is in right direction
-                    this.speedX *= 1.33;
+                    this.speedUpX();
                 }
                 else{ //If the ball is in counter direction
-                    this.speedX *= -0.8;
+                    this.speedReverseX ();
                 }
-
-                //alert(this.speedX);
                 
                 return true;
-
-
             }
 
             else if (element[0] >= (barPos[0] + barThird) && element[0] <= (barPos[0] + barThird*2)) 
             //Center part of the bar
             {
-                this.speedY *= -1.5;
+                this.speedY *= -1;
+                this.speedDownX();
                 this.y = barPos[1] - this.radius; //Prevent the ball to get in the bar
                 
                 return true;
@@ -135,42 +135,79 @@ class Ball extends MovingObject {
             else if (element[0] >= barPos[0] + barThird*2 && element[0] <= (barPos[0] + barThird*3)) 
             //Right part of the bar
             {
-                this.speedY *= -0.8;
+                this.speedY *= -1;
                 this.y = barPos[1] - this.radius; //Prevent the ball to get in the bar
                 
                 if (this.speedX > 0){ //If the ball is in right direction
-                    this.speedX *= 1.33;
+                   this.speedUpX();
                 }
                 else{ //If the ball is in counter direction
-                    this.speedX *= -0.8;
+                    this.speedReverseX ();
                 }
 
-                //alert(this.speedX);
+                if (this.speedX > this.maxSpeedX) {this.speedX = this.maxSpeedX;}
+                else if (this.speedX < -this.maxSpeedX) {this.speedX = -this.maxSpeedX;}
                 
                 return true;
 
 
             }
 
-        }
-            
-            
-            //Selon le rebond sur la raquette différents cgangements de vitesse
-            //milieu speedy * -1.5
-            //milieu excentré speedy * -1 et speedx * 0.75 plus la direction (podsitif ou négatif)
-            // cotés speedy *-0.8  et speedx *1.33 plus la direction             
-        }, this);
+        } }, this);
 
         
     }
 
-    //Add function for increase speed who manage that, for have limit.
-
-
-
-
-
     
+    speedUpX (){ //Methode for increase speed of ball, in a controlled way
+
+        this.speedX *= 1.33;
+
+        if (Math.sign(this.speedX) == 1)
+        {
+            if (this.speedX > this.maxSpeedX) {this.speedX = this.maxSpeedX;}
+            else if (this.speedX < this.minSpeedX) {this.speedX = this.minSpeedX;}
+        }
+               
+        else if (Math.sign(this.speedX) == -1)
+        {
+
+            if (this.speedX < -this.maxSpeedX) {this.speedX = -this.maxSpeedX;}
+            else if (this.speedX > -this.minSpeedX) {this.speedX = -this.minSpeedX;}
+        }
+    }
+
+    speedReverseX (){ //Methode for reverse speed of ball, in a controlled way
+
+        this.speedX *= -0.8;
+
+        if (Math.sign(this.speedX) == 1)
+        {
+           if (this.speedX < this.minSpeedX) {this.speedX = this.minSpeedX;}
+        }
+               
+        else if (Math.sign(this.speedX) == -1)
+        {
+            if (this.speedX > -this.minSpeedX) {this.speedX = -this.minSpeedX;}
+        }
+    }
+
+    speedDownX (){
+        this.speedX *= 0.8;
+
+        if (Math.sign(this.speedX) == 1)
+        {
+           if (this.speedX < this.minSpeedX) {this.speedX = this.minSpeedX;}
+        }
+               
+        else if (Math.sign(this.speedX) == -1)
+        {
+            if (this.speedX > -this.minSpeedX) {this.speedX = -this.minSpeedX;}
+        }
+
+    }
+
+
 
     round (num){
         num *= 1000;

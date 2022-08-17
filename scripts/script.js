@@ -3,8 +3,11 @@ var ctx = canvas.getContext("2d");
 var div = document.getElementById("fps"); //FPS counter
 
 
-var perf1 =performance.now(); //For FPS counter 
-var perf2 =0; //For FPS counter
+//var timeSt =performance.now(); //For FPS counter 
+//var oldTimeStamp = 0; //For FPS counter
+
+
+var oldTimeStamp = 0;
 var i = 0;
 var paused = false;
 
@@ -42,7 +45,9 @@ function keyIsPress (e)
 }
 
 
-function refresh (){
+function refresh (timeStamp){
+
+  
 
     if (!paused){
         ctx.beginPath(); //return at the start of canvas
@@ -51,22 +56,27 @@ function refresh (){
         ctx.fillStyle = "rgba(0,0,0,1)";
 
         bar.draw(ctx); //Redraw the bar
-        ball.move(canvas, ctx);
+
+        // Calculate how much time has passed
+            //For move the ball by time not by framerate
+        let secondsPassed = (timeStamp - oldTimeStamp) / 1000;
+        oldTimeStamp = timeStamp;
+        ball.move(canvas, secondsPassed);
         ball.touch(bar.getPos(), bar.getSize());
         ball.draw(ctx);
 
-        fpsCounter();
+       // fpsCounter();
     }
     window.requestAnimationFrame(refresh);
 }
 
 
-function fpsCounter (){
+/*function fpsCounter (){
 
     i++;
     if (i >= 60){ //FPS coounter
-        perf2 = performance.now(); //Get time now
-        let fps = i / ((perf2 - perf1)/1000);
+        oldTimeStamp = performance.now(); //Get time now
+        let fps = i / ((oldTimeStamp - timeSt)/1000);
                                 // millisec to sec
 
         var mycounter = document.createElement('p'); //Create counter
@@ -75,9 +85,9 @@ function fpsCounter (){
         div.removeChild(div.lastChild); //Flush the old counter
         div.appendChild(mycounter); //Add the node to the page
 
-        perf1= performance.now(); //Reset perf1
+        timeSt= performance.now(); //Reset timeSt
         i = 0;
     }
 
-}
+}*/
 
